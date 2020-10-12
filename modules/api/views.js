@@ -108,7 +108,7 @@ function processInitialErrors(uri, next) {
 
 module.exports = function(app) {
 
-    app.get('/iframely', function(req, res, next) {
+    app.get('/v1/embed/iframely', function(req, res, next) {
 
         var uri = prepareUri(req.query.uri || req.query.url);
 

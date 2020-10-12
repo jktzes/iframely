@@ -169,7 +169,7 @@ app.get('/', function(req, res) {
   res.end();
 });
 
-app.get('/check-iframe', (req, res) => {
+app.get('/v1/embed/check-iframe', (req, res) => {
   let iframeAvailable = false
   const url = req.query['url']
   request.get(url, {}, (err, requestRes, body) => {

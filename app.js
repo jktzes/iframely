@@ -11,6 +11,7 @@ if (!CONFIG.baseAppUrl) {
 var path = require('path');
 var express = require('express');
 var jsonxml = require('jsontoxml');
+const request = require('request');
 
 var NotFound = sysUtils.NotFound;
 
@@ -167,6 +168,18 @@ app.get('/', function(req, res) {
   res.writeHead(302, { Location: 'http://iframely.com'});
   res.end();
 });
+
+app.get('/check-iframe', (req, res) => {
+  let iframeAvailable = false
+  const url = req.query['url']
+  request.get(url, {}, (err, requestRes, body) => {
+    console.log('res.headers', requestRes.headers)
+    if (requestRes.headers && !requestRes.headers['x-frame-options']) {
+      iframeAvailable = true
+    }
+    res.json({ iframeAvailable: iframeAvailable })
+  })
+})
 
 process.title = "iframely";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";

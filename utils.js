@@ -1,6 +1,6 @@
 (function() {
 
-    global.CONFIG = require('./config');
+    global.CONFIG = require('./config.js');
 
     var async = require('async');
     var cache = require('./lib/cache');
@@ -51,7 +51,7 @@
 
     exports.HttpError = HttpError;
 
-    var version = require('./package.json').version;
+    var version = require('./../package.json').version;
 
     var etag = function(value) {
         return '"' + crypto.createHash('md5').update(value).digest("hex") + '"';

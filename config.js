@@ -11,7 +11,7 @@
     var path = require('path');
     var fs = require('fs');
 
-    var version = require('./package.json').version;
+    var version = require('./../package.json').version;
 
     var config = {
 

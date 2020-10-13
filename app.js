@@ -173,7 +173,6 @@ app.get('/v1/embed/check-iframe', (req, res) => {
   let iframeAvailable = false
   const url = req.query['url']
   request.get(url, {}, (err, requestRes, body) => {
-    console.log('res.headers', requestRes.headers)
     if (requestRes.headers && !requestRes.headers['x-frame-options']) {
       iframeAvailable = true
     }

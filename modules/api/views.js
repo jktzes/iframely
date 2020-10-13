@@ -139,8 +139,6 @@ module.exports = function(app) {
 
         ], function(error, result) {
 
-          console.log('result after waterfall', result)
-
             if (error) {
                 return handleIframelyError(error, res, next);
             }

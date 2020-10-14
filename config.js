@@ -381,7 +381,7 @@
 
     var env_config_path = path.resolve(
         __dirname,
-        "config." + (process.env.NODE_ENV || "local") + ".js"
+        "config.test.js"
     );
 
     var local_config_path = path.resolve(__dirname, "config.local.js");

@@ -164,11 +164,6 @@ if (process.env.NODE_ENV !== 'test') {
   app.use(CONFIG.relativeStaticUrl, express.static('static'));
 }
 
-app.get('/', function(req, res) {
-  res.writeHead(302, { Location: 'http://iframely.com'});
-  res.end();
-});
-
 app.get('/v1/embed/check-iframe', (req, res) => {
   let iframeAvailable = false
   const url = req.query['url']
@@ -176,9 +171,14 @@ app.get('/v1/embed/check-iframe', (req, res) => {
     if (requestRes.headers && !requestRes.headers['x-frame-options']) {
       iframeAvailable = true
     }
-    res.json({ iframeAvailable: iframeAvailable })
+    res.json({ iframeAvailable: iframeAvailable, timeout: false })
   })
 })
+
+app.get('/', function(req, res) {
+  res.writeHead(302, { Location: 'http://iframely.com'});
+  res.end();
+});
 
 process.title = "iframely";
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";

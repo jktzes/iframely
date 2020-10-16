@@ -20,7 +20,7 @@ var app = express();
 app.set('view engine', 'ejs');
 
 if (CONFIG.allowedOrigins) {
-  app.use(function(req, res, next) {
+  app.use(function (req, res, next) {
     var origin = req.headers["origin"];
 
     if (origin) {
@@ -35,8 +35,8 @@ if (CONFIG.allowedOrigins) {
     next();
   });
 }
-app.disable( 'x-powered-by' );
-app.use(function(req, res, next) {
+app.disable('x-powered-by');
+app.use(function (req, res, next) {
   res.setHeader('X-Powered-By', 'Iframely');
   next();
 });
@@ -114,7 +114,7 @@ function errorHandler(err, req, res, next) {
     respondWithError(req, res, 404, err.message, err.messages);
   } else {
     var code = err.code || 500;
-    proxyErrorCodes.map(function(e) {
+    proxyErrorCodes.map(function (e) {
       if (err.message.indexOf(e) > - 1) {
         code = e;
       }
@@ -150,7 +150,7 @@ function errorHandler(err, req, res, next) {
   }
 }
 
-process.on('uncaughtException', function(err) {
+process.on('uncaughtException', function (err) {
   if (CONFIG.DEBUG) {
     console.log(err.stack);
   } else {
@@ -167,7 +167,11 @@ if (process.env.NODE_ENV !== 'test') {
 app.get('/v1/embed/check-iframe', (req, res) => {
   let iframeAvailable = false
   const url = req.query['url']
-  request.get(url, {}, (err, requestRes, body) => {
+  request.get(url, {
+    headers: {
+      'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.80 Safari/537.36',
+    }
+  }, (err, requestRes, body) => {
     if (requestRes.headers && !requestRes.headers['x-frame-options']) {
       iframeAvailable = true
     }
@@ -175,8 +179,8 @@ app.get('/v1/embed/check-iframe', (req, res) => {
   })
 })
 
-app.get('/', function(req, res) {
-  res.writeHead(302, { Location: 'http://iframely.com'});
+app.get('/', function (req, res) {
+  res.writeHead(302, { Location: 'http://iframely.com' });
   res.end();
 });
 

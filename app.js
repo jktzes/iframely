@@ -166,7 +166,7 @@ if (process.env.NODE_ENV !== 'test') {
 }
 
 app.get('/v1/embed/check-iframe', (req, res) => {
-  let iframeAvailable = false
+  let iframeAvailable = null 
   const url = req.query['url']
   request.get(url, {
     headers: {
@@ -176,8 +176,10 @@ app.get('/v1/embed/check-iframe', (req, res) => {
     if (err) {
       console.log('error in check-iframe', err)
     }
-    if (!_.get(requestRes, 'headers.x-frame-options')) {
+    if (requestRes && !_.get(requestRes, 'headers.x-frame-options')) {
       iframeAvailable = true
+    } else if (['SAMEORIGIN', 'DENY'].includes(_.get(requestRes, 'headers.x-frame-options'))) {
+      iframeAvailable = false
     }
     res.json({ iframeAvailable: iframeAvailable, timeout: false })
   })
